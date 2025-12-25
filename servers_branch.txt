@@ -1,0 +1,26 @@
+1 видео:
+index.ts
+2 роутера products и addresses с get и post запросами, С большего чисто products, addresses только get middleware рута
+далее создаеться отдельный репозиторий
+вся логика из роутера вырезаеться и вставляеться в репозиторий
+
+2видео: там были чисто нюансы middleware, не писал его руками.
+
+3 видео:
+на те CRUD-ы что были в products сделали валидацию через библиотеку epxress-validator на POST и PUT запрос в products
+валидация сделана отдельно и вставляеться в Post как middleware
+далее что бы эти ошибки гдето собирать, создали отдельный middleware который уже собирает все ошибки(если они были) в отдельный массив вот так:
+
+export const inputValidationMiddleware = (req: Request, res: Response, next: NextFunction) => {
+    const errors = validationResult(req)
+    if (!errors.isEmpty()) {
+        res.status(400).json({ errors: errors.array() })
+    } else {
+        next()
+    }
+}
+
+и далее уже в запросе мы прописываем:
+productsRouter.post(`/`, titleValidation, inputValidationMiddleware, (req: Request, res: Response) => {...}
+где titleValidation проверяет что нам прислали, а inputValidationMiddleware собирает все ошибки в массив и выдает их при наличии ошибок
+как пример вот сама валидация const titleValidation = body('title').exists()  "тут проверяем в body свойство title существует или нет"
