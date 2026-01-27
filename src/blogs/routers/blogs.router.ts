@@ -1,5 +1,11 @@
 import { Router } from "express";
 import { createBlogHandler, deleteBlogHandler, getBlogHandler, getBlogsListHandler, updateBlogHandler } from "./blogs.handlers";
+import { blogBodyValidation  } from "../Blogs.Validation";
+import { idValidation } from "../../common/validations/id.validator";
+import { inputValidationResultMiddleware } from "../../common/middleware/inputValidationResultMiddleware";
+
+
+
 
 
 
@@ -7,8 +13,8 @@ export const blogsRouter = Router();
 
 
 blogsRouter.get('', getBlogsListHandler);
-blogsRouter.get('/:id', getBlogHandler);
-blogsRouter.post('', createBlogHandler);
-blogsRouter.put('/:id', updateBlogHandler);
-blogsRouter.delete('/:id', deleteBlogHandler);
+blogsRouter.get('/:id',idValidation, inputValidationResultMiddleware, getBlogHandler);
+blogsRouter.post('',blogBodyValidation, inputValidationResultMiddleware, createBlogHandler);
+blogsRouter.put('/:id',idValidation, blogBodyValidation, inputValidationResultMiddleware, updateBlogHandler);
+blogsRouter.delete('/:id',idValidation, inputValidationResultMiddleware, deleteBlogHandler);
 
