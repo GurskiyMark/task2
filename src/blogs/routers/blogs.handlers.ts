@@ -52,9 +52,18 @@ export const updateBlogHandler = (req: Request, res: Response) => {
     }
 
     const blog = blogsDb[index];
-    blog.name = req.body.name;
-    blog.description = req.body.description;
-    blog.websiteUrl = req.body.websiteUrl;
+    if (req.body.name !== undefined) {
+        blog.name = req.body.name;
+    }
+    
+    if (req.body.description !== undefined) {
+        blog.description = req.body.description;
+    }
+    
+    if (req.body.websiteUrl !== undefined) {
+        blog.websiteUrl = req.body.websiteUrl;
+    }
+
 
     res.sendStatus(HttpStatus.NoContent);
 };

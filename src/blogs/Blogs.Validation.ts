@@ -55,6 +55,22 @@ export const blogBodyValidation = [
 ];
 
 
+export const blogUpdateBodyValidation = [
+   body('name')
+      .optional()
+      .custom(v => typeof v === 'string').withMessage('name must be a string')
+      .isLength({ max: 15 }).withMessage('Max length 15'),
+   body('description')
+      .optional()
+      .custom(v => typeof v === 'string').withMessage('description must be a string')
+      .isLength({ max: 500 }).withMessage('Max length 500'),
+   body('websiteUrl')
+      .optional()
+      .custom(v => typeof v === 'string').withMessage('websiteUrl must be a string')
+      .isLength({ max: 100 }).withMessage('Max length 100')
+      .matches(WEBSITE_URL_REGEX).withMessage('WebsiteUrl must start with https:// and be valid')
+];
+
 
 
 
